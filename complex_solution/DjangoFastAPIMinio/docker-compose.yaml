@@ -1,0 +1,41 @@
+version: "3.9"
+
+x-app: &app
+  env_file:
+    - ./.env
+  restart: always
+
+x-default-logging: &default-logging
+  options:
+    max-size: '10m'
+    max-file: '3'
+  driver: json-file
+
+services:
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=practicum
+      - MINIO_ROOT_PASSWORD=StrongPass
+    volumes:
+      - minio_storage:/data
+    command: server --console-address ":9001" /data
+
+  file-database:
+    image: postgres:16
+    <<: *app
+    logging: *default-logging
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+    environment:
+      TZ: "Europe/Moscow"
+      PGTZ: "Europe/Moscow"
+    ports:
+      - "54321:5432"
+
+volumes:
+  minio_storage:
+  db_data:
