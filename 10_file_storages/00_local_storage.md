@@ -36,7 +36,7 @@ class FilmWork(UUIDMixin, TimeStampedMixin):
 
 При добавлении или редактировании кинопроизведения в административной панели появится необходимое поле для загрузки файла.
 
-![image](06_sprint/10_file_storages/images/film-django-admin_fin.png)
+![image](images/film-django-admin_fin.png)
 
 После этого остается лишь в `docker-compose.yaml` примонтировать [именованный том](https://docs.docker.com/storage/volumes/){target="_blank"} в папку `uploads` проекта и этот же том подключить к контейнеру с Nginx.
 
